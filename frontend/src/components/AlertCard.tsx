@@ -1,33 +1,46 @@
 import type { Alert } from "@/lib/supabase";
 
 const LABELS: Record<string, string> = {
-  "no-helmet": "Sin casco",
-  "no-hardhat": "Sin casco",
-  "no-vest": "Sin chaleco",
-  "no-safety-vest": "Sin chaleco",
+  "no-hardhat":    "Sin casco",
+  "no-helmet":     "Sin casco",
+  "no-safety vest":"Sin chaleco",
+  "no-vest":       "Sin chaleco",
+  "no-mask":       "Sin mascarilla",
 };
 
-const COLORS: Record<string, string> = {
-  "no-helmet": "bg-red-900 border-red-600 text-red-300",
-  "no-hardhat": "bg-red-900 border-red-600 text-red-300",
-  "no-vest": "bg-orange-900 border-orange-600 text-orange-300",
-  "no-safety-vest": "bg-orange-900 border-orange-600 text-orange-300",
+const STYLES: Record<string, string> = {
+  "no-hardhat":    "border-red-800 bg-red-950/50 text-red-300",
+  "no-helmet":     "border-red-800 bg-red-950/50 text-red-300",
+  "no-safety vest":"border-orange-800 bg-orange-950/50 text-orange-300",
+  "no-vest":       "border-orange-800 bg-orange-950/50 text-orange-300",
+  "no-mask":       "border-yellow-800 bg-yellow-950/50 text-yellow-300",
+};
+
+const ICONS: Record<string, string> = {
+  "no-hardhat": "⛑️",
+  "no-helmet":  "⛑️",
+  "no-safety vest": "🦺",
+  "no-vest":    "🦺",
+  "no-mask":    "😷",
 };
 
 export default function AlertCard({ alert }: { alert: Alert }) {
-  const label = LABELS[alert.violation_type] ?? alert.violation_type;
-  const color = COLORS[alert.violation_type] ?? "bg-gray-800 border-gray-600 text-gray-300";
-  const time = new Date(alert.created_at).toLocaleTimeString("es-AR");
+  const label  = LABELS[alert.violation_type]  ?? alert.violation_type;
+  const style  = STYLES[alert.violation_type]  ?? "border-gray-700 bg-gray-900 text-gray-300";
+  const icon   = ICONS[alert.violation_type]   ?? "⚠️";
+  const time   = new Date(alert.created_at).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  const conf   = (alert.confidence * 100).toFixed(0);
 
   return (
-    <div className={`border rounded-lg p-4 flex items-center gap-4 ${color}`}>
-      <div className="flex-1">
-        <p className="font-semibold text-lg">{label}</p>
-        <p className="text-sm opacity-75">
-          Cámara: {alert.camera_id ?? "—"} · Confianza: {(alert.confidence * 100).toFixed(1)}%
+    <div className={`border rounded-xl p-3 flex gap-3 items-start ${style}`}>
+      <span className="text-2xl shrink-0 mt-0.5">{icon}</span>
+      <div className="flex-1 min-w-0">
+        <p className="font-semibold text-sm">{label}</p>
+        <p className="text-xs opacity-60 mt-0.5">
+          {alert.camera_id ?? "cam-0"} · {conf}% confianza
         </p>
       </div>
-      <time className="text-sm font-mono opacity-60 shrink-0">{time}</time>
+      <time className="text-xs font-mono opacity-50 shrink-0 mt-0.5">{time}</time>
     </div>
   );
 }
