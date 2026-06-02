@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { supabase, type Alert } from "@/lib/supabase";
 import Link from "next/link";
+import DetectorControls from "@/components/DetectorControls";
 import AlertCard from "@/components/AlertCard";
 import StatsBar from "@/components/StatsBar";
 import CameraFeed from "@/components/CameraFeed";
@@ -95,6 +96,7 @@ export default function Dashboard() {
               🔔 Activar notificaciones
             </button>
           )}
+          <DetectorControls />
           <Link href="/analisis" className="text-xs text-blue-400 border border-blue-900 px-3 py-1 rounded-full hover:bg-blue-900/30">
             🎬 Analizar video
           </Link>

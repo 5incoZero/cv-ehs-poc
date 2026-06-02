@@ -33,3 +33,15 @@ async def shutdown():
 @app.get("/health")
 def health():
     return {"status": "ok", "detector_running": detector.running}
+
+
+@app.post("/detector/start")
+async def start_detector():
+    await detector.start()
+    return {"status": "started", "running": detector.running}
+
+
+@app.post("/detector/stop")
+async def stop_detector():
+    await detector.stop()
+    return {"status": "stopped", "running": detector.running}
