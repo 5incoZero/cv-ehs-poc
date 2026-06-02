@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import camera, alerts
+from app.routers import camera, alerts, analysis
 from app.services.detector import DetectorService
 
 app = FastAPI(title="CV-EHS-POC API", version="0.1.0")
@@ -15,6 +15,7 @@ app.add_middleware(
 
 app.include_router(camera.router, prefix="/camera", tags=["camera"])
 app.include_router(alerts.router, prefix="/alerts", tags=["alerts"])
+app.include_router(analysis.router, prefix="/analysis", tags=["analysis"])
 
 detector = DetectorService()
 

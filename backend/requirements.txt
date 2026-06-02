@@ -3,6 +3,6 @@ uvicorn[standard]==0.29.0
 python-dotenv==1.0.1
 supabase==2.4.6
 opencv-python-headless
-ultralytics
 numpy
 python-multipart==0.0.9
+ultralytics
